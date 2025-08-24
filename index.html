@@ -3,41 +3,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Audio Extractor</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Email Button</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f4f4f4;
+      font-family: Arial, sans-serif;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      padding: 15px 25px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Video Audio Extractor</h1>
-    <input type="file" id="videoInput" accept="video/*">
 
-    <div class="options" style="display:none;">
-      <h3>Select an Option</h3>
-      <button id="optionVideo">Extract Video (No Sound)</button>
-      <button id="optionAudio">Extract Audio</button>
-    </div>
+  <button onclick="sendEmail()">Send Email</button>
+<footer>
+  <p>Developer Contact: <a href="mailto:developer@example.com">developer@example.com</a></p>
+</footer>
+<p>Contact Developer: <a href="mailto:developer@example.com">developer@example.com</a></p>
+<button onclick="window.location.href='mailto:developer@example.com?subject=Support%20Request&body=Hello%20Developer,'">
+  Email Developer
+</button>
+<form id="contactForm">
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="email" name="email" placeholder="Your Email" required>
+  <textarea name="message" placeholder="Your Message" required></textarea>
+  <button type="submit">Send</button>
+</form>
 
-    <div id="progressContainer" style="display:none;">
-      <p>Processing: <span id="progressText">0%</span></p>
-      <div class="progress-bar">
-        <div class="progress" id="progressBar"></div>
-      </div>
-    </div>
+<script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+<script>
+  emailjs.init("YOUR_PUBLIC_KEY");
 
-    <div id="output"></div>
-  </div>
+  document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+      .then(() => alert('Message sent!'), (error) => alert('Failed: ' + error));
+  });
+</script>
 
-  <!-- Custom Popup -->
-  <div class="popup" id="popup">
-    <div class="popup-content">
-      <p id="popupMessage"></p>
-      <button id="confirmBtn">Yes</button>
-      <button id="cancelBtn">No</button>
-    </div>
-  </div>
+  <script>
+    function sendEmail() {
+      const email = "example@email.com"; // Change this to your email address
+      const subject = "Hello from My Website";
+      const body = "Hi there,\n\nThis is a test email.\n\nBest regards,\nYour Name";
 
-  <!-- FFmpeg.wasm -->
-  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.12.6/dist/ffmpeg.min.js"></script>
-  <script src="script.js"></script>
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    }
+  </script>
+
 </body>
 </html>
